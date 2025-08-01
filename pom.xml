@@ -5,7 +5,7 @@
 
 	<groupId>org.openmrs.distro</groupId>
 	<artifactId>bahmni</artifactId>
-	<version>1.2.0-SNAPSHOT</version>
+	<version>1.1.2</version>
     <modules>
         <module>openmrs-module-bahmni.configuration</module>
         <module>distro</module>
@@ -34,18 +34,10 @@
         <repository>
             <id>sonatype-nexus-snapshots</id>
             <name>Sonatype Nexus Snapshots</name>
-            <url>https://central.sonatype.com/repository/maven-snapshots</url>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-		<repository>
-            <id>central</id>
-            <url>https://repo1.maven.org/maven2</url>
-            <name>Repository for dependencies</name>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
@@ -58,7 +50,7 @@
 		<repository>
 			<id>repo.mybahmni.org</id>
 			<name>bahmni-artifactory-snapshots</name>
-			<url>https://repo.mybahmni.org/artifactory/snapshot</url>
+			<url>https://repo.mybahmni.org.s3.amazonaws.com/artifactory/snapshot</url>
 			<snapshots>
 				<updatePolicy>always</updatePolicy>
 			</snapshots>
@@ -66,7 +58,7 @@
 		<repository>
 			<id>repo.mybahmni.org-release</id>
 			<name>bahmni-artifactory-release</name>
-			<url>https://repo.mybahmni.org/artifactory/release</url>
+			<url>https://repo.mybahmni.org.s3.amazonaws.com/artifactory/release</url>
 		</repository>
 		<repository>
 			<id>mks-repo</id>
@@ -78,11 +70,6 @@
 			<name>Mekom Solutions Nexus Snapshots</name>
 			<url>https://nexus.mekomsolutions.net/repository/maven-snapshots</url>
 		</repository>
-		<repository>
-			<id>www.dcm4che.org</id>
-			<name>dcm4che Repository</name>
-			<url>https://www.dcm4che.org/maven2</url>
-    	</repository>
 	</repositories>
 
 	<pluginRepositories>
