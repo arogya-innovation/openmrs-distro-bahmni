@@ -36,9 +36,9 @@ jobs:
       - name: Build with Maven
         run: |
           ./mvnw --no-transfer-progress -U clean install
-        env:
-          USER_NAME: ${{ secrets.USERNAME }}
-          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # env:
+        #   USER_NAME: ${{ secrets.USERNAME }}
+        #   ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
@@ -56,36 +56,36 @@ jobs:
           file: package/docker/openmrs/Dockerfile
           push: true
           tags: bahmni/openmrs:${{ env.ARTIFACT_VERSION }},bahmni/openmrs:latest
-      - name: Update Version and Image Tag
-        run: |
-          yq --inplace '.image.tag = "${{ env.ARTIFACT_VERSION }}"' $HELM_CHART_PATH/values.yaml
-          yq --inplace '.version = "${{ env.ARTIFACT_VERSION }}"' $HELM_CHART_PATH/Chart.yaml
-      - name: Helm Lint
-        run: helm lint $HELM_CHART_PATH
+      # - name: Update Version and Image Tag
+      #   run: |
+      #     yq --inplace '.image.tag = "${{ env.ARTIFACT_VERSION }}"' $HELM_CHART_PATH/values.yaml
+      #     yq --inplace '.version = "${{ env.ARTIFACT_VERSION }}"' $HELM_CHART_PATH/Chart.yaml
+      # - name: Helm Lint
+      #   run: helm lint $HELM_CHART_PATH
 
-      - name: Helm Package
-        run: helm package $HELM_CHART_PATH
+      # - name: Helm Package
+      #   run: helm package $HELM_CHART_PATH
 
-      - name: Checkout Charts Repository
-        uses: actions/checkout@v2
-        with:
-          repository: Bahmni/helm-charts
-          ref: gh-pages
-          path: helm-charts
-          persist-credentials: false
+      # - name: Checkout Charts Repository
+      #   uses: actions/checkout@v2
+      #   with:
+      #     repository: Bahmni/helm-charts
+      #     ref: gh-pages
+      #     path: helm-charts
+      #     persist-credentials: false
 
-      - name: Copy Helm Archive
-        run: cp openmrs-${{ env.ARTIFACT_VERSION }}.tgz helm-charts/openmrs/
+      # - name: Copy Helm Archive
+      #   run: cp openmrs-${{ env.ARTIFACT_VERSION }}.tgz helm-charts/openmrs/
 
-      - name: Helm Index
-        working-directory: helm-charts/
-        run: helm repo index --merge index.yaml --url https://bahmni.github.io/helm-charts/  .
+      # - name: Helm Index
+      #   working-directory: helm-charts/
+      #   run: helm repo index --merge index.yaml --url https://bahmni.github.io/helm-charts/  .
 
-      - name: Commit and Push Chart Repository
-        working-directory: helm-charts/
-        run: |
-          git config user.name ${{ secrets.BAHMNI_USERNAME}}
-          git config user.email ${{ secrets.BAHMNI_EMAIL}}
-          git add .
-          git commit -m "Release of openmrs-${{ env.ARTIFACT_VERSION }}"
-          git push 'https://${{ secrets.BAHMNI_USERNAME}}:${{ secrets.BAHMNI_PAT}}@github.com/bahmni/helm-charts.git' gh-pages
+      # - name: Commit and Push Chart Repository
+      #   working-directory: helm-charts/
+      #   run: |
+      #     git config user.name ${{ secrets.BAHMNI_USERNAME}}
+      #     git config user.email ${{ secrets.BAHMNI_EMAIL}}
+      #     git add .
+      #     git commit -m "Release of openmrs-${{ env.ARTIFACT_VERSION }}"
+      #     git push 'https://${{ secrets.BAHMNI_USERNAME}}:${{ secrets.BAHMNI_PAT}}@github.com/bahmni/helm-charts.git' gh-pages
