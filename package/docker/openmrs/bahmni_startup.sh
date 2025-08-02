@@ -17,7 +17,8 @@ if [ -d /etc/bahmni_config/masterdata/configuration ]
 then
   cp -r /etc/bahmni_config/masterdata/configuration/ ${OPENMRS_APPLICATION_DATA_DIRECTORY}/
 fi
-mysql --host="${OMRS_DB_HOSTNAME}" --user="${OMRS_DB_USERNAME}" --password="${OMRS_DB_PASSWORD}" "${OMRS_DB_NAME}" -e "UPDATE global_property SET global_property.property_value = '' WHERE  global_property.property = 'search.indexVersion';" || true
+# mysql --host="${OMRS_DB_HOSTNAME}" --user="${OMRS_DB_USERNAME}" --password="${OMRS_DB_PASSWORD}" "${OMRS_DB_NAME}" -e "UPDATE global_property SET global_property.property_value = '' WHERE  global_property.property = 'search.indexVersion';" || true
+mysql --host="${OMRS_DB_HOSTNAME}" --port="${OMRS_DB_PORT}" --user="${OMRS_DB_USERNAME}" --password="${OMRS_DB_PASSWORD}" "${OMRS_DB_NAME}" -e "UPDATE global_property SET global_property.property_value = '' WHERE  global_property.property = 'search.indexVersion';" || true
 
 ./update_elis_host_port.sh
 
