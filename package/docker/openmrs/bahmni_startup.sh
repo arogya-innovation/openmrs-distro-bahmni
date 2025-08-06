@@ -10,15 +10,15 @@ envsubst < /etc/bahmni-emr/templates/openmrs-runtime.properties.template > ${OPE
 envsubst < /etc/bahmni-emr/templates/mail-config.properties.template > ${OPENMRS_APPLICATION_DATA_DIRECTORY}/mail-config.properties
 envsubst < /etc/bahmni-emr/templates/appointment.properties.template > ${OPENMRS_APPLICATION_DATA_DIRECTORY}/appointment.properties
 envsubst < /etc/bahmni-emr/templates/rulesengine-concept.properties.template > ${OPENMRS_APPLICATION_DATA_DIRECTORY}/rulesengine-concept.properties
-/openmrs/wait-for-it.sh --timeout=3600 ${OMRS_DB_HOSTNAME}:${OMRS_DB_PORT}
+/openmrs/wait-for-it.sh --timeout=3600 ${OMRS_DB_HOSTNAME}:3306
 
 echo "Copy Configuration Folder from bahmni_config"
 if [ -d /etc/bahmni_config/masterdata/configuration ]
 then
   cp -r /etc/bahmni_config/masterdata/configuration/ ${OPENMRS_APPLICATION_DATA_DIRECTORY}/
 fi
-# FIXED: Added --port parameter to this line
 mysql --host="${OMRS_DB_HOSTNAME}" --user="${OMRS_DB_USERNAME}" --password="${OMRS_DB_PASSWORD}" "${OMRS_DB_NAME}" -e "UPDATE global_property SET global_property.property_value = '' WHERE  global_property.property = 'search.indexVersion';" || true
+
 ./update_elis_host_port.sh
 
 if [ "${OMRS_DOCKER_ENV}" = 'true' ]
